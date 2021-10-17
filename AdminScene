@@ -1,0 +1,74 @@
+// Author: David Corrales Marco
+
+import java.util.ArrayList;
+
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+
+
+
+import javafx.scene.control.Button;
+
+public class AdminScene extends SceneBasic
+{
+	
+	public AdminScene()
+	{
+		super("Administrator Menu");//sets large label to "Administrator Menu"
+		Button listAcc = new Button ("List Accounts");//button to go to AccountListScene
+		listAcc.setOnAction(e-> SceneManager.setAccountListScene());
+		Button changePass = new Button ("Change Password");//button to go to ChangePasswordScene
+		changePass.setOnAction(e->SceneManager.setChangePasswordScene());
+		Button logOut = new Button("Log Out");// button to go to LogOutScene
+		logOut.setOnAction(e->SceneManager.setLoginScene());
+		layout.getChildren().addAll(listAcc,changePass,logOut);
+	}	
+}
+
+//here to make scenes pretty later
+/*
+public class AdminScene extends SceneBasic{
+	
+	private GridPane root;
+	
+	public AdminScene() {
+		super("Admin Menu");
+		
+		Label title = new Label(super.getTitleText());
+		title.setFont(new Font(40));
+		
+		Button button1 = new Button("List Accounts");
+		button1.setOnAction(e -> SceneManager.setAccountListScene());
+		
+		Button button2 = new Button("Change Password");
+		button2.setOnAction(e -> SceneManager.setChangePasswordScene());
+		
+		Button button3 = new Button("Log out");
+		button3.setOnAction(e -> SceneManager.setLoginScene());
+		
+		root = new GridPane();
+		root.setAlignment(Pos.CENTER);
+		root.setVgap(10);
+		root.setHgap(5);
+		
+		root.add(button1, 0, 0);
+		root.add(button2, 1, 0);
+		root.add(button3, 2, 0);
+		
+		VBox vbox = new VBox(30, title, root);
+		vbox.setAlignment(Pos.CENTER);
+		
+		BorderPane bp = new BorderPane(vbox);
+		BorderPane.setAlignment(bp, Pos.CENTER);	
+		super.scene = new Scene(bp, 400, 300);
+		
+	}	
+	
+}
+*/

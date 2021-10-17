@@ -34,7 +34,7 @@ public class Store extends Application
 		{
 			try 
 			{
-				connection = new Socket("localhost",LISTENING_PORT);
+				//connection = new Socket("localhost",LISTENING_PORT);
 				launch();
 				System.out.println("launched");//for development
 			}

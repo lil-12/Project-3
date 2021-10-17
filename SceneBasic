@@ -1,0 +1,32 @@
+// Author: David Corrales Marco off of Lily's SceneBasic from Project 2
+
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+
+public abstract class SceneBasic 
+{
+	protected Scene scene;
+	protected VBox layout;//the container to hold everything in the scene
+	private String titleText;
+	
+	public SceneBasic(String titleText)
+	{
+		this.titleText =titleText;
+		Label label = new Label(titleText);//sets the top label
+		layout = new VBox();
+		layout.getChildren().add(label);
+		scene = new Scene(layout,300,200);
+	}
+	
+	//returns the scene variable
+	public Scene getScene()
+	{
+		return scene;
+	}
+	
+	public void logout() {
+		
+	}
+
+}

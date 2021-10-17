@@ -1,5 +1,9 @@
 // Author: David Corrales Marco
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import javafx.geometry.Pos;
@@ -21,18 +25,19 @@ public class AccountListScene extends SceneBasic
 {
 
 	GridPane display = new GridPane();//container holding ...
+	Text list = new Text("");
 	
 	public AccountListScene ()
 	{
 		super("Account List Menu");		
-		
+		/*
 		Label labelU = new Label("Username:");//label for username column
 		Label labelA = new Label("Account: ");//label for account column
 		Label blank = new Label("\t");
 		display.add(labelU,0,0);
 		display.add(labelA,2,0);
 		display.add(blank,1,0);
-		
+		*/
 
 		layout.getChildren().add(display);
 		Button adminMenu = new Button("AdminMenu");
@@ -41,56 +46,31 @@ public class AccountListScene extends SceneBasic
 		logOut.setOnAction(e-> SceneManager.setLoginScene());
 		layout.getChildren().add(adminMenu);
 		layout.getChildren().add(logOut);
-		
-		
-	}
-	
-	public void getAccountList() {
-		
-	}
-}
-
-
-//here to make scene's pretty later
-/*
-public class AccountListScene extends SceneBasic{
-	
-	private GridPane root;
-	
-	public AccountListScene(){
-		super("Account List");
-		
-		Label title = new Label(super.getTitleText());
-		title.setFont(new Font(40));
-		
-		//Display accounts here
-		
 				
-		Button button1 = new Button("Admin Menu");
-		button1.setOnAction(e -> SceneManager.setAdminScene());
 		
-		Button button2 = new Button("Log out");
-		button2.setOnAction(e -> SceneManager.setLoginScene());
-		
-		root = new GridPane();
-		root.setAlignment(Pos.CENTER);
-		root.setVgap(10);
-		root.setHgap(5);
-		
-		root.add(button1, 1, 0);
-		root.add(button2, 2, 0);
-		
-		VBox vbox = new VBox(30, title, root);
-		vbox.setAlignment(Pos.CENTER);
-		
-		BorderPane bp = new BorderPane(vbox);
-		BorderPane.setAlignment(bp, Pos.CENTER);	
-		super.scene = new Scene(bp, 400, 300);
 	}
 	
 	public void getAccountList() {
 		
-	}	
-
+		try {
+			
+			Socket socket = SceneManager.getSocket();
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			PrintWriter out = new PrintWriter(SceneManager.getSocket().getOutputStream());
+			
+			out.println("ACCOUNTLIST");
+			
+			out.flush();
+			
+			String message = in.readLine();
+			message += "\n" + in.readLine();
+			
+			list.setText(message);
+			layout.getChildren().add(list);
+						
+		} catch (Exception e) {
+			
+		}
+		
+	}
 }
-*/

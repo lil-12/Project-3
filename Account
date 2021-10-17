@@ -1,0 +1,38 @@
+// Authors: Lillian Davis and David Corrales Marco
+
+public abstract class Account {
+
+	private String username;
+	private String password;
+
+	public Account(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	
+	//returns the username
+	public String getUsername() {
+		return username;
+	}
+	
+	//checks to see if the input password matches the one listed with account
+	public boolean verifyPassword(String password) {
+		if (this.password.equals(password)) return true; 
+		else return false;
+	}
+	
+	//sets a new password
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	//prints the account out as a string
+	public String toString() {
+		return "username: " + getUsername() + ", " + getClass();
+	}
+	
+	//returns the account's password
+	public String getPassword() {
+		return password;
+	}
+}

@@ -1,0 +1,20 @@
+// Author: Lillian Davis
+
+import javafx.scene.control.Button;
+
+
+public class ClientScene extends SceneBasic{
+			
+		public ClientScene() {
+		
+		super("Client Menu");	
+	
+		Button profile = new Button("Show profile");//profile button
+		profile.setOnAction(e->  SceneManager.setProfileScene());
+		Button change = new Button("Change Password");//change password button
+		change.setOnAction(e-> SceneManager.setChangePasswordScene());
+		Button logout = new Button("Logout");//logout button
+		logout.setOnAction(e-> SceneManager.setLoginScene());
+		layout.getChildren().addAll(profile, change, logout);
+	}
+}

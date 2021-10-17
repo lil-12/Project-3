@@ -1,0 +1,24 @@
+// Author: David Corrales Marco
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+
+class Test_readAccounts_JUnit {
+	
+	//tests the readAccounts method in StoreServer
+	@Test
+	void testReadAccounts() {
+		ArrayList<Account> accounts = new ArrayList<Account>();
+		String expected = "username: admin, class AdminAccount" + "\n" + "username: client, class ClientAccount" + "\n";
+		StoreServer.readAccounts(accounts);
+		String received = "";
+		for (int i = 0; i < accounts.size(); i++) {
+			received += accounts.get(i).toString() + "\n";
+		}
+		assert expected.equals(received) : "ERROR";
+	}
+
+}

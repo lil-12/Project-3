@@ -19,8 +19,8 @@ public class ProfileScene extends SceneBasic
 	public ProfileScene ()
 	{
 		super("Profile");
-		Label thisProfile = new Label();
-		Label errorLabel = new Label();
+		thisProfile = new Label();
+		errorLabel = new Label();
 		Button exit = new Button("Exit");
 		exit.setOnAction( e-> SceneManager.setClientScene());
 		layout.getChildren().add(thisProfile);
@@ -37,7 +37,7 @@ public class ProfileScene extends SceneBasic
 			outgoing.println("PROFILE");
 			outgoing.flush();
 			String profile = incoming.readLine();//signal from server
-			thisProfile = new Label(profile);
+			thisProfile.setText(profile);
 			incoming.close();
 			outgoing.close();
 		}

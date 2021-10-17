@@ -60,6 +60,7 @@ public class SettingsScene extends SceneBasic
 		{
 			String portNum = textP.getText();
 			int port = Integer.parseInt(portNum);
+			System.out.println(port);
 			Socket connection = new Socket(textH.getText(),port);
 			SceneManager.setSocket(connection);
 		} 
@@ -69,5 +70,5 @@ public class SettingsScene extends SceneBasic
 			e.printStackTrace();
 		}
 	}
-	
 }
+

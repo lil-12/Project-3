@@ -36,9 +36,6 @@ public class StoreServer
 				{
 					login(accounts,incoming,outgoing);
 				}
-				if (fromUser.equals("CHANGE")) {
-					changePassword(accounts, incoming, outgoing);
-				}
 				if(fromUser.equals("ACCOUNTLIST"))
 				{
 					sendAccountList(outgoing);
@@ -53,6 +50,10 @@ public class StoreServer
 					connection.close();
 					serve = new ServerSocket(LISTENING_PORT);
 					connection =serve.accept();
+				}
+				if(fromUser.equals("CHANGE"))
+				{
+					changePassword(userAccount,incoming,outgoing);
 				}
 			}
 		}
@@ -92,6 +93,7 @@ public class StoreServer
 				accounts.add(clientAccount);
 			}
 		}
+		
 	}
 
 	
@@ -114,6 +116,7 @@ public class StoreServer
 					}
 					else toSend = toSend+"Incorrect password";//sends if the username exists, but the password is wrong
 				}
+				
 			}
 			if(toSend.equals("error: "))
 				toSend=toSend+"Incorrect username";//sends if the username does not exist
@@ -126,7 +129,25 @@ public class StoreServer
 			e.printStackTrace();
 		}
 	}
-	
+	public static void sendAccountList(PrintWriter outgoing2) 
+	{
+		try 
+		{
+			String toSend = "";
+			for (int i = 0; i < accounts.size(); i++) 
+			{
+				toSend += accounts.get(i).toString() + "\n";
+			}
+			outgoing2.println(toSend);
+			outgoing2.flush();
+			System.out.println("sent");
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void sendAccountListLilysVersion(PrintWriter outgoing2) 
 	{
 		
@@ -146,9 +167,8 @@ public class StoreServer
 		outgoing2.flush();
 	}
 
-	public static void changePassword(Account userAccount2, BufferedReader incoming2, PrintWriter outgoing2) {
-		// TODO Auto-generated method stub
-		
+	public static void changePassword(Account userAccount2, BufferedReader incoming2, PrintWriter outgoing2) 
+	{
 		try {
 			String toSend = "error: ";//the message to be sent at end of interaction. by default it send error, unless an account is selected
 			String password = incoming2.readLine();//password sent by client
@@ -160,6 +180,7 @@ public class StoreServer
 						toSend="ADMIN";//sends this signal if the account is admin
 					else toSend = "CLIENT";//sends this signal if the account is client
 				} 
+				else toSend = "error: current password not correct";
 			}
 			outgoing.println(toSend);
 			outgoing.flush();	
@@ -168,7 +189,5 @@ public class StoreServer
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 }

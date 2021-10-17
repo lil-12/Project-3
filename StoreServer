@@ -89,7 +89,6 @@ public class StoreServer
 				accounts.add(clientAccount);
 			}
 		}
-		
 	}
 
 	
@@ -112,7 +111,6 @@ public class StoreServer
 					}
 					else toSend = toSend+"Incorrect password";//sends if the username exists, but the password is wrong
 				}
-				
 			}
 			if(toSend.equals("error: "))
 				toSend=toSend+"Incorrect username";//sends if the username does not exist

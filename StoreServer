@@ -36,21 +36,21 @@ public class StoreServer
 				{
 					login(accounts,incoming,outgoing);
 				}
-				if(fromUser.equals("ACCOUNTLIST"))
+				else if(fromUser.equals("ACCOUNTLIST"))
 				{
 					sendAccountList(outgoing);
 				}
-				if(fromUser.equals("PROFILE"))
+				else if(fromUser.equals("PROFILE"))
 				{
 					sendProfile(outgoing);
 				}
-				if(fromUser.equals("QUIT"))
+				else if(fromUser.equals("QUIT"))
 				{
 					connection =serve.accept();
 					outgoing = new PrintWriter(connection.getOutputStream());
 					incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				}
-				if(fromUser.equals("CHANGE"))
+				else if(fromUser.equals("CHANGE"))
 				{
 					changePassword(userAccount,incoming,outgoing);
 				}
@@ -145,18 +145,6 @@ public class StoreServer
 		{
 			e.printStackTrace();
 		}
-	}
-
-	public static void sendAccountListLilysVersion(PrintWriter outgoing2) 
-	{
-		
-		for(int i=0;i<accounts.size();i++)
-		{
-			 outgoing2.println(accounts.get(i).getUsername());
-			 outgoing2.println(accounts.get(i).getClass());
-		}
-		outgoing2.println("SENTALLACCOUNTS");
-		outgoing2.flush();
 	}
 
 	public static void sendProfile(PrintWriter outgoing2) 

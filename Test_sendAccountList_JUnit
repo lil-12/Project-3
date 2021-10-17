@@ -1,3 +1,5 @@
+// Author: Lillian Davis
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-class Test_SendAccountList_JUnit {
+class Test_sendAccountList_JUnit {
 
 	@Test
 	void test() 

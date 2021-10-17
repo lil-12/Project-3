@@ -46,10 +46,9 @@ public class StoreServer
 				}
 				if(fromUser.equals("QUIT"))
 				{
-					serve.close();
-					connection.close();
-					serve = new ServerSocket(LISTENING_PORT);
 					connection =serve.accept();
+					outgoing = new PrintWriter(connection.getOutputStream());
+					incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				}
 				if(fromUser.equals("CHANGE"))
 				{

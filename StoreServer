@@ -119,7 +119,7 @@ public class StoreServer
 		}
 	}
 	
-	public static void sendAccountList(PrintWriter outgoing2) 
+	public static void sendAccountListLilysVersion(PrintWriter outgoing2) 
 	{
 		
 		for(int i=0;i<accounts.size();i++)

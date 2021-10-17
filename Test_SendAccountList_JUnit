@@ -1,0 +1,44 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+
+class Test_SendAccountList_JUnit {
+
+	@Test
+	void test() 
+	{
+		Socket connection;
+		PrintWriter outgoing;
+		BufferedReader incoming;
+		try 
+		{
+			connection = new Socket("localhost",52431);
+			System.out.println("connecting to port: " + 52431);
+			//outgoing = new PrintWriter(connection.getOutputStream());
+			incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String name1 = incoming.readLine();
+			System.out.println(name1);
+			String type1 = incoming.readLine();
+			System.out.println(type1);
+			String name2 = incoming.readLine();
+			System.out.println(name1);
+			String type2 = incoming.readLine();
+			System.out.println(type2);
+			String quit =incoming.readLine();
+			System.out.println(quit);
+			assert(name1.equals("admin") && type1.equals("class AdminAccount") && name2.equals("client") && type2.equals("class ClientAccount") && quit.equals("SENTALLACCOUNTS")): name1+","+type1+""+name2+""+type2+""+quit;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+}

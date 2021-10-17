@@ -30,14 +30,6 @@ public class AccountListScene extends SceneBasic
 	public AccountListScene ()
 	{
 		super("Account List Menu");		
-		/*
-		Label labelU = new Label("Username:");//label for username column
-		Label labelA = new Label("Account: ");//label for account column
-		Label blank = new Label("\t");
-		display.add(labelU,0,0);
-		display.add(labelA,2,0);
-		display.add(blank,1,0);
-		*/
 
 		layout.getChildren().add(display);
 		Button adminMenu = new Button("AdminMenu");

@@ -13,8 +13,6 @@ public class ClientScene extends SceneBasic{
 		profile.setOnAction(e->  SceneManager.setProfileScene());
 		Button change = new Button("Change Password");//change password button
 		change.setOnAction(e-> SceneManager.setChangePasswordScene());
-		Button logout = new Button("Logout");//logout button
-		logout.setOnAction(e-> SceneManager.setLoginScene());
-		layout.getChildren().addAll(profile, change, logout);
+		layout.getChildren().addAll(profile, change);
 	}
 }

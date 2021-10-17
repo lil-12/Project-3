@@ -8,6 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import java.io.PrintWriter;
 
 // Author: Lillian Davis
 
@@ -50,25 +51,39 @@ public class SettingsScene extends SceneBasic
 	private void cancel()
 	{
 		errorLabel.setText("");
+		textH.setText("");
+		textP.setText("");
 		SceneManager.setLoginScene();
 	}
 	
 	private void apply()
 	{
-		
 		try 
 		{
+			PrintWriter outgoing;
+			if(SceneManager.getSocket()!= null)
+				if(!SceneManager.getSocket().isClosed())
+				{
+					outgoing = new PrintWriter(SceneManager.getSocket().getOutputStream());
+					outgoing.println("QUIT");
+				}	
 			String portNum = textP.getText();
 			int port = Integer.parseInt(portNum);
 			System.out.println(port);
 			Socket connection = new Socket(textH.getText(),port);
-			SceneManager.setSocket(connection);
-		} 
-		catch (Exception e) 
+			if(connection==null)
+				errorLabel.setText("error: unable to connect to "+textH.getText());
+			else
+			{
+				SceneManager.setSocket(connection);
+				cancel();
+			}
+		}
+		catch(Exception e)
 		{
-			errorLabel.setText("error: "+e.toString());
+			errorLabel.setText("error: unable to connect to "+textH.getText());
 			e.printStackTrace();
 		}
-		cancel();
 	}
 }
+

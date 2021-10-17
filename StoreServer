@@ -1,0 +1,146 @@
+// Authors: Lillian Davis and David Corrales Marco
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StoreServer 
+{
+	static ArrayList<Account> accounts = new ArrayList<Account>();//list fo accounts used by application
+	static Account userAccount;
+	static BufferedReader incoming;
+	static PrintWriter outgoing;
+	static int LISTENING_PORT =52431;
+
+	public static void main(String[] args) 
+	{
+		StoreServer.readAccounts(accounts);
+		try 
+		{
+			ServerSocket serve = new ServerSocket(LISTENING_PORT);
+			System.out.println("Listening on port: "+LISTENING_PORT);//for development
+			Socket connection = serve.accept();
+			System.out.println("accepted connection");//for development
+			outgoing = new PrintWriter(connection.getOutputStream());
+			incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			while(true)
+			{
+				String fromUser =incoming.readLine();
+				if(fromUser.equals("LOGIN"))
+				{
+					login(accounts,incoming,outgoing);
+				}
+				if(fromUser.equals("ACCOUNTLIST"))
+				{
+					sendAccountList(outgoing);
+				}
+				if(fromUser.equals("PROFILE"))
+				{
+					sendProfile(outgoing);
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
+
+	//scans a data file with information about accounts, and pits these accounts into an arrayList
+	public static void readAccounts(ArrayList<Account> accounts) {
+		Scanner scan;
+		AdminAccount adminAccount;
+		ClientAccount clientAccount;
+		
+		try {
+			scan = new Scanner(new File("data.txt"));//scans data file of accounts
+		} catch (FileNotFoundException e) {
+			System.out.println("Can't find file data.txt!");
+			return;
+		}
+		
+		while (scan.hasNextLine()) {
+			String str = scan.nextLine();
+			String[] array = str.split("%");
+			String type = array[0];//type of account
+			String name = array[1];//username
+			String password = array[2];
+			String profile = array[3];
+	
+			if (type.equals("ADMINISTRATOR")) {
+				adminAccount = new AdminAccount(name, password, accounts);
+				accounts.add(adminAccount);
+			} else if (type.equals("CLIENT")) {
+				clientAccount = new ClientAccount(name, password, profile);
+				accounts.add(clientAccount);
+			}
+		}
+		
+	}
+
+	
+	public static void login(ArrayList<Account> accounts, BufferedReader incoming, PrintWriter outgoing)
+	{
+		try
+		{
+			String toSend = "error: ";//the message to be sent at end of interaction. by default it send error, unless an account is selected
+			String username= incoming.readLine();//username sent by client
+			for(int i=0;i<accounts.size();i++)
+			{
+				if(username.equals(accounts.get(i).getUsername()))
+				{
+					if(accounts.get(i).verifyPassword(incoming.readLine()))//checks password of the account
+					{
+						if(accounts.get(i) instanceof AdminAccount)
+							toSend="ADMIN";//sends this signal if the account is admin
+						else toSend = "CLIENT";//sends this signal if the account is client
+						userAccount = accounts.get(i);
+					}
+					else toSend = toSend+"Incorrect password";//sends if the username exists, but the password is wrong
+				}
+				
+			}
+			if(toSend.equals("error: "))
+				toSend=toSend+"Incorrect username";//sends if the username does not exist
+			outgoing.println(toSend);
+			outgoing.flush();	
+			System.out.println("sent");//for development
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static void sendAccountList(PrintWriter outgoing2) 
+	{
+		
+		for(int i=0;i<accounts.size();i++)
+		{
+			 outgoing2.println(accounts.get(i).getUsername());
+			 outgoing2.println(accounts.get(i).getClass());
+		}
+		outgoing2.println("SENTALLACCOUNTS");
+		outgoing2.flush();
+	}
+
+	public static void sendProfile(PrintWriter outgoing2) 
+	{
+		ClientAccount thisClient = (ClientAccount)(userAccount);
+		outgoing2.println(thisClient.getProfile());
+		outgoing2.flush();
+	}
+
+	public static void changePassword(Account userAccount2, BufferedReader incoming2, PrintWriter outgoing2) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+}

@@ -25,9 +25,7 @@ public class AdminScene extends SceneBasic
 		listAcc.setOnAction(e-> SceneManager.setAccountListScene());
 		Button changePass = new Button ("Change Password");//button to go to ChangePasswordScene
 		changePass.setOnAction(e->SceneManager.setChangePasswordScene());
-		Button logOut = new Button("Log Out");// button to go to LogOutScene
-		logOut.setOnAction(e->SceneManager.setLoginScene());
-		layout.getChildren().addAll(listAcc,changePass,logOut);
+		layout.getChildren().addAll(listAcc,changePass);
 	}	
 }
 

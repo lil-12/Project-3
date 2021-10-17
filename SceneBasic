@@ -21,7 +21,7 @@ public abstract class SceneBasic
 		Label label = new Label(titleText);//sets the top label
 		layout = new VBox();
 		layout.getChildren().add(label);
-		Button logout = new Button("logout");
+		Button logout = new Button("Quit");
 		logout.setOnAction(e->
 		{
 			logout();

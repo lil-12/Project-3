@@ -1,0 +1,88 @@
+// Author: Lillian Davis
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+
+public class LoginScene extends SceneBasic
+{
+	private TextField textU;
+	private PasswordField textP;
+	private Label errorLabel;
+	
+	public LoginScene()
+	{
+		super("Login Menu");
+		GridPane display = new GridPane();//container holding the labels and textfeilds for username and password
+		Label labelU = new Label("Username: ");//label for username texfield
+		Label labelP = new Label("Password: ");//label for password textfield
+		errorLabel = new Label("");//will be set if there is an error loging in
+		textU = new TextField();//username textfield
+		textP = new PasswordField();//password textfield
+		display.add(labelU,0,0);
+		display.add(labelP,0,1);
+		display.add(textU,1,0);
+		display.add(textP,1,1);
+		layout.getChildren().add(display);
+		Button login = new Button("Login");//login button
+		Button settings = new Button("Settings");//settings button
+		login.setOnAction(e-> 
+			{	
+				login();
+			});//sets login button to test tryU and tryP and log the user in
+		settings.setOnAction(e-> SceneManager.setSettingsScene());//clicking the settings button opens the settings scene
+		layout.getChildren().add(errorLabel);
+		HBox buttons = new HBox();
+		buttons.getChildren().add(login);
+		buttons.getChildren().add(settings);
+		layout.getChildren().add(buttons);  
+		
+	}
+	
+	//tests the username and password entered by user. if they are valid, calls SceneManeger to set Stage to the ClientScene or AdminScene
+	private void login(/*String username, String password*/)
+	{
+		try{
+			Socket socket = SceneManager.getSocket();
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			PrintWriter out = new PrintWriter(SceneManager.getSocket().getOutputStream());
+			out.println("LOGIN");
+			out.println(textU.getText());
+			out.println(textP.getText());
+			out.flush();
+			String message = in.readLine();//signal from server
+			if(message.equals("ADMIN"))
+			{
+				textU.setText("");
+				textP.setText("");
+				errorLabel.setText("");
+				SceneManager.setAdminScene();
+			}
+			else if(message.equals("CLIENT"))
+			{
+				textU.setText("");
+				textP.setText("");
+				errorLabel.setText("");
+				SceneManager.setClientScene();
+			}
+			else
+			{
+				errorLabel.setText(message);//if pass or username are wrong
+			}
+		}
+		catch(Exception e)
+		{
+			errorLabel.setText("error: "+(e.toString()));//if an unknown or socket error has occured
+			e.printStackTrace();
+		}
+		
+	}
+}

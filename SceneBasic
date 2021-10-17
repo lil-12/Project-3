@@ -14,6 +14,7 @@ public abstract class SceneBasic
 	protected Scene scene;
 	protected VBox layout;//the container to hold everything in the scene
 	private String titleText;
+	Button quit;
 	
 	public SceneBasic(String titleText)
 	{
@@ -21,12 +22,12 @@ public abstract class SceneBasic
 		Label label = new Label(titleText);//sets the top label
 		layout = new VBox();
 		layout.getChildren().add(label);
-		Button logout = new Button("Quit");
-		logout.setOnAction(e->
+		quit = new Button("Quit");
+		quit.setOnAction(e->
 		{
 			logout();
 		});
-		layout.getChildren().add(logout);
+		layout.getChildren().add(quit);
 		scene = new Scene(layout,300,200);
 	}
 	

@@ -50,9 +50,11 @@ public class Store extends Application
 		{
 			try 
 			{
+				connection = SceneManager.getSocket();
 				PrintWriter out = new PrintWriter(connection.getOutputStream());
 				out.println("QUIT");
 				out.flush();
+				out.close();
 			} catch (IOException e) 
 			{
 				e.printStackTrace();

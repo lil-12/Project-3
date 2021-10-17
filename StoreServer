@@ -179,7 +179,6 @@ public class StoreServer
 						toSend="ADMIN";//sends this signal if the account is admin
 					else toSend = "CLIENT";//sends this signal if the account is client
 				} 
-				else toSend = "error: current password not correct";
 			}
 			outgoing.println(toSend);
 			outgoing.flush();	

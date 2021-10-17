@@ -44,6 +44,13 @@ public class StoreServer
 				{
 					sendProfile(outgoing);
 				}
+				if(fromUser.equals("QUIT"))
+				{
+					serve.close();
+					connection.close();
+					serve = new ServerSocket(LISTENING_PORT);
+					connection =serve.accept();
+				}
 			}
 		}
 		catch(Exception e)

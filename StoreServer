@@ -36,6 +36,9 @@ public class StoreServer
 				{
 					login(accounts,incoming,outgoing);
 				}
+				if (fromUser.equals("CHANGE")) {
+					changePassword(accounts, incoming, outgoing);
+				}
 				if(fromUser.equals("ACCOUNTLIST"))
 				{
 					sendAccountList(outgoing);

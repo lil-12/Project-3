@@ -1,0 +1,64 @@
+// Authors: Lillian Davis and David Corrales Marco
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class Store extends Application
+{
+		private static SceneManager sceneManager;
+		private static Socket connection;
+		private static int LISTENING_PORT=52431;
+		
+		//launches GUI
+		public void start(Stage stage)
+		{
+			System.out.println("started");//for development
+			sceneManager = new SceneManager();
+		    stage.setTitle("Store Application");
+		    sceneManager.setStage(stage);
+		    sceneManager.setSocket(connection);
+		    SceneManager.setLoginScene();
+		    stage.show();
+		    System.out.println("finished starting");//for development
+		   
+		}
+		
+		//connects to server
+		public static void main(String []args)
+		{
+			try 
+			{
+				connection = new Socket("localhost",LISTENING_PORT);
+				launch();
+				System.out.println("launched");//for development
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		
+		//sends quit signal to server as GUi is stopping
+		public void stop()
+		{
+			try 
+			{
+				PrintWriter out = new PrintWriter(connection.getOutputStream());
+				out.println("QUIT");
+				out.flush();
+			} catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		
+
+}

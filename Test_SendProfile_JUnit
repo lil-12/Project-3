@@ -1,0 +1,39 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import org.junit.jupiter.api.Test;
+
+class Test_SendProfile_JUnit 
+{
+
+	@Test
+	void test() 
+	{
+		Socket connection;
+		PrintWriter outgoing;
+		BufferedReader incoming;
+		try 
+		{
+			connection = new Socket("localhost",52431);
+			System.out.println("connecting to port: " + 52431);
+			outgoing = new PrintWriter(connection.getOutputStream());
+			incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			outgoing.println("client");
+			outgoing.println("1234");
+			outgoing.flush();
+			System.out.println("login result"+incoming.readLine());
+			String profile = incoming.readLine();
+			System.out.println("prof"+profile);
+			assert(profile.equals("Best client ever"));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+}

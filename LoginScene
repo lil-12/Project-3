@@ -38,7 +38,11 @@ public class LoginScene extends SceneBasic
 			{	
 				login();
 			});//sets login button to test tryU and tryP and log the user in
-		settings.setOnAction(e-> SceneManager.setSettingsScene());//clicking the settings button opens the settings scene
+		settings.setOnAction(e-> 
+		{
+			SceneManager.setSettingsScene();
+			errorLabel.setText("");
+		});//clicking the settings button opens the settings scene
 		layout.getChildren().add(errorLabel);
 		HBox buttons = new HBox();
 		buttons.getChildren().add(login);

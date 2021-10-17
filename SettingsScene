@@ -69,6 +69,6 @@ public class SettingsScene extends SceneBasic
 			errorLabel.setText("error: "+e.toString());
 			e.printStackTrace();
 		}
+		cancel();
 	}
 }
-

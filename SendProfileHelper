@@ -1,0 +1,32 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class SendProfileHelper 
+{
+	public static void main(String [] args)
+	{
+		try 
+		{
+				//ArrayList<Account> accounts = new ArrayList<Account>();//list of accounts used for testing
+				/*AdminAccount acc1 = new AdminAccount("ldavis","123456",accounts);//accounts used for testing
+				ClientAccount client = new ClientAccount("client1","12345", "profile" );//accounts used for testing
+				accounts.add(acc1);
+				accounts.add(client); //accepts a connection from client and runs login 4 times*/
+				ServerSocket serve = new ServerSocket(52431); 
+				Socket connection = serve.accept();
+				System.out.println("accepted connection");
+				PrintWriter outgoing = new PrintWriter(connection.getOutputStream());
+				BufferedReader incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				StoreServer.readAccounts(StoreServer.accounts);
+				StoreServer.login(StoreServer.accounts,incoming,outgoing);
+				StoreServer.sendProfile(outgoing);	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

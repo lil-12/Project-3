@@ -1,22 +1,17 @@
-// Author: Lillian Davis
-
+//Lillian Davis
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Test_sendProfile_Helper 
+public class SendProfileHelper 
 {
+	//has StoreServer read in accounts from datafile, calls login, for test to login, and sends the profile of the logged in user to the client(test)
 	public static void main(String [] args)
 	{
 		try 
 		{
-				//ArrayList<Account> accounts = new ArrayList<Account>();//list of accounts used for testing
-				/*AdminAccount acc1 = new AdminAccount("ldavis","123456",accounts);//accounts used for testing
-				ClientAccount client = new ClientAccount("client1","12345", "profile" );//accounts used for testing
-				accounts.add(acc1);
-				accounts.add(client); //accepts a connection from client and runs login 4 times*/
 				ServerSocket serve = new ServerSocket(52431); 
 				Socket connection = serve.accept();
 				System.out.println("accepted connection");

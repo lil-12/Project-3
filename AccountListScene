@@ -24,21 +24,37 @@ import javafx.scene.layout.GridPane;
 public class AccountListScene extends SceneBasic
 {
 
-	GridPane display = new GridPane();//container holding ...
+	GridPane root = new GridPane();//container holding ...
 	Text list = new Text("");
 	
 	public AccountListScene ()
 	{
-		super("Account List Menu");		
+		super("Account List Menu");
+		
+		Label title = new Label("Account List Scene");
+		title.setFont(new Font(40));
 
-		layout.getChildren().add(display);
 		Button adminMenu = new Button("AdminMenu");
+		Button logOut = new Button("Log out");
+		
 		adminMenu.setOnAction(e-> SceneManager.setAdminScene());
-		Button logOut = new Button("log out");
 		logOut.setOnAction(e-> SceneManager.setLoginScene());
-		layout.getChildren().add(adminMenu);
-		layout.getChildren().add(logOut);
-				
+		
+		root = new GridPane();
+		root.setAlignment(Pos.CENTER);
+		root.setVgap(10);
+		root.setHgap(5);
+		
+		root.add(adminMenu, 0, 2);
+		root.add(logOut, 1, 2);
+		root.add(quit, 3, 2);
+		
+		VBox vbox = new VBox(30, title, root);
+		vbox.setAlignment(Pos.CENTER);
+
+		BorderPane bp = new BorderPane(vbox);
+		BorderPane.setAlignment(bp, Pos.CENTER);
+		super.scene = new Scene(bp, 400, 300);
 		
 	}
 	
@@ -58,7 +74,7 @@ public class AccountListScene extends SceneBasic
 			message += "\n" + in.readLine();
 			
 			list.setText(message);
-			layout.getChildren().add(list);
+			root.add(list, 0, 0);
 						
 		} catch (Exception e) {
 			

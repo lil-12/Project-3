@@ -52,49 +52,6 @@ public class AdminScene extends SceneBasic
 		BorderPane.setAlignment(bp, Pos.CENTER);
 		super.scene = new Scene(bp, 400, 300);
 		
-		//layout.getChildren().addAll(listAcc,changePass,logOut);
 	}
 	
 }
-
-
-/*
-public class AdminScene extends SceneBasic{
-	
-	private GridPane root;
-	
-	public AdminScene() {
-		super("Admin Menu");
-		
-		Label title = new Label(super.getTitleText());
-		title.setFont(new Font(40));
-		
-		Button button1 = new Button("List Accounts");
-		button1.setOnAction(e -> SceneManager.setAccountListScene());
-		
-		Button button2 = new Button("Change Password");
-		button2.setOnAction(e -> SceneManager.setChangePasswordScene());
-		
-		Button button3 = new Button("Log out");
-		button3.setOnAction(e -> SceneManager.setLoginScene());
-		
-		root = new GridPane();
-		root.setAlignment(Pos.CENTER);
-		root.setVgap(10);
-		root.setHgap(5);
-		
-		root.add(button1, 0, 0);
-		root.add(button2, 1, 0);
-		root.add(button3, 2, 0);
-		
-		VBox vbox = new VBox(30, title, root);
-		vbox.setAlignment(Pos.CENTER);
-		
-		BorderPane bp = new BorderPane(vbox);
-		BorderPane.setAlignment(bp, Pos.CENTER);	
-		super.scene = new Scene(bp, 400, 300);
-		
-	}	
-	
-}
-*/

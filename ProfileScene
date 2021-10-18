@@ -16,23 +16,19 @@ import javafx.scene.text.Font;
 
 public class ProfileScene extends SceneBasic
 {
-	
-	private Label thisProfile;
-	private Label errorLabel;
-	private GridPane root;
-	
+	private Label thisProfile;//label holding the text of the user's profile
+	private GridPane root;//container holding the labels and textfeilds for username and password
 	
 	public ProfileScene ()
 	{
 		super("Profile");
 		
-		Label title = new Label("Profile Scene");
+		Label title = new Label("Profile Scene");//large title of scene
 		title.setFont(new Font(40));
 		
 		thisProfile = new Label();
-		errorLabel = new Label();
 		
-		Button exit = new Button("Exit");
+		Button exit = new Button("Exit");//exits profileScene, returns to UserScene
 		
 		exit.setOnAction( e-> SceneManager.setClientScene());
 		
@@ -43,7 +39,7 @@ public class ProfileScene extends SceneBasic
 		
 		root.add(thisProfile, 0, 0);
 		root.add(exit, 0, 2);
-		root.add(quit, 1, 2);
+		root.add(quit, 1, 2);//sets location of the SceneBasic quit button (return to loginScene and cut connection)
 		
 		VBox vbox = new VBox(30, title, root);
 		vbox.setAlignment(Pos.CENTER);
@@ -51,27 +47,26 @@ public class ProfileScene extends SceneBasic
 		BorderPane bp = new BorderPane(vbox);
 		BorderPane.setAlignment(bp, Pos.CENTER);
 		super.scene = new Scene(bp, 400, 300);
-		
 	}	
 	
+	//sends a signal to server requesting the user's profile, and prints whatever the server sends
 	public void getProfile() 
 	{
-		try{
+		try
+		{
 			Socket socket = SceneManager.getSocket();
 			BufferedReader incoming = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter outgoing = new PrintWriter(SceneManager.getSocket().getOutputStream());
-			outgoing.println("PROFILE");
+			outgoing.println("PROFILE");//signal sent to server
 			outgoing.flush();
-			String profile = incoming.readLine();//signal from server
+			String profile = incoming.readLine();//message from server
 			thisProfile.setText(profile);
 			incoming.close();
 			outgoing.close();
 		}
 		catch(Exception e)
 		{
-			errorLabel = new Label("error: "+(e.toString()));//if an unknown or socket error has occured
 			e.printStackTrace();
 		}
 	}
-	
 }

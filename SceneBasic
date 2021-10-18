@@ -13,13 +13,13 @@ public abstract class SceneBasic
 {
 	protected Scene scene;
 	protected VBox layout;//the container to hold everything in the scene
-	private String titleText;
-	Button quit;
+	private String titleText;//if not overridden by user, the title label of the scene
+	Button quit;//quit button brings user to loginScene and cuts connection to server
 	
 	public SceneBasic(String titleText)
 	{
 		this.titleText =titleText;
-		Label label = new Label(titleText);//sets the top label
+		Label label = new Label(titleText);//if not overriden by children, the title text of the scene
 		layout = new VBox();
 		layout.getChildren().add(label);
 		quit = new Button("Quit");
@@ -28,7 +28,7 @@ public abstract class SceneBasic
 			logout();
 		});
 		layout.getChildren().add(quit);
-		scene = new Scene(layout,300,200);
+		scene = new Scene(layout,300,200);//if not overriden by child classes, sets layout into the scene
 	}
 	
 	//returns the scene variable
@@ -37,9 +37,10 @@ public abstract class SceneBasic
 		return scene;
 	}
 	
+	//returns to loginScene and cuts the connection to the server
 	public void logout() 
 	{
-		if(SceneManager.getSocket()!= null)
+		if(SceneManager.getSocket()!= null)//checks if there even is a connection before sending signals
 		{
 			if(!SceneManager.getSocket().isClosed())
 			{
@@ -48,11 +49,11 @@ public abstract class SceneBasic
 				{
 					Socket socket = SceneManager.getSocket();
 					PrintWriter outgoing= new PrintWriter(socket.getOutputStream());
-					outgoing.println("QUIT");
+					outgoing.println("QUIT");//sends quit signal to server
 					outgoing.flush();
 					outgoing.close();
-					//SceneManager.getSocket().close();
-				} catch (IOException e) 
+				} 
+				catch (IOException e) 
 				{
 					e.printStackTrace();
 				}
@@ -60,5 +61,4 @@ public abstract class SceneBasic
 		}
 		SceneManager.setLoginScene();
 	}
-
 }

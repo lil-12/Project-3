@@ -24,6 +24,7 @@ public class SettingsScene extends SceneBasic
 		Label labelH = new Label("Host: ");//label for username texfield
 		Label labelP = new Label("Port Number: ");//label for port textfield
 		errorLabel = new Label();//will be set if there is an error connecting 
+		errorLabel.setTextFill(Color.color(1, 0, 0));
 		textH = new TextField();//host textfield
 		textP = new TextField();//port textfield
 		display.add(labelH,0,0);

@@ -24,18 +24,18 @@ import javafx.scene.layout.GridPane;
 public class AccountListScene extends SceneBasic
 {
 
-	GridPane root = new GridPane();//container holding the main elements of the scene
-	Text list = new Text("");//where the list of accounts will be printed
+	GridPane root = new GridPane();//container holding most elements of the scene
+	Text list = new Text("");//list of accounts to be displayed
 	
 	public AccountListScene ()
 	{
 		super("Account List Menu");
 		
-		Label title = new Label("Account List Scene");
+		Label title = new Label("Account List Scene");//large title
 		title.setFont(new Font(40));
 
-		Button adminMenu = new Button("AdminMenu");//brings the user back to the adminScene
-		Button logOut = new Button("Log out");//brings the user back to the loginScene
+		Button adminMenu = new Button("AdminMenu");//brings you back to adminMenu
+		Button logOut = new Button("Log out");//logs you out (but does not disconnect from server)
 		
 		adminMenu.setOnAction(e-> SceneManager.setAdminScene());
 		logOut.setOnAction(e-> SceneManager.setLoginScene());
@@ -47,35 +47,34 @@ public class AccountListScene extends SceneBasic
 		
 		root.add(adminMenu, 0, 2);
 		root.add(logOut, 1, 2);
-		root.add(quit, 3, 2);
+		root.add(quit, 3, 2);//button from SceneBasic that cuts connections and returns to loginScene
 		
 		VBox vbox = new VBox(30, title, root);
 		vbox.setAlignment(Pos.CENTER);
 
 		BorderPane bp = new BorderPane(vbox);
 		BorderPane.setAlignment(bp, Pos.CENTER);
-		super.scene = new Scene(bp, 400, 300);	
+		super.scene = new Scene(bp, 400, 300);
+		
 	}
 	
-	//sends signal to server requesting the accountList and sets the returned message to list
+	//requests a list of all accounts from server and displays whatever it receives
 	public void getAccountList() 
 	{
 		try 
 		{
-			
-			Socket socket = SceneManager.getSocket();//gets socket from the SceneManager to use in method
+			Socket socket = SceneManager.getSocket();
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter out = new PrintWriter(SceneManager.getSocket().getOutputStream());
-			out.println("ACCOUNTLIST");
+			out.println("ACCOUNTLIST");//signal
 			out.flush();
-			String message = in.readLine();
+			String message = in.readLine();//message received from server
 			message += "\n" + in.readLine();
-			list.setText(message);//sets the message returned from the server to list
-			root.add(list, 0, 0);
-						
-		} catch (Exception e) {
-			
+			list.setText(message);
+			root.add(list, 0, 0);		
+		} 
+		catch (Exception e) 
+		{	
 		}
-		
 	}
 }

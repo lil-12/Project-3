@@ -2,7 +2,7 @@
 
 public class ClientAccount extends Account{
 	
-	private String profile;
+	private String profile;//string describing user's account
 	
 	public ClientAccount(String username, String password, String profile) 
 	{
@@ -11,8 +11,8 @@ public class ClientAccount extends Account{
 	}
 	
 	//returns the clients profile
-	public String getProfile() {
+	public String getProfile() 
+	{
 		return profile;
 	}
-
 }

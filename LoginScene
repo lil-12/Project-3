@@ -18,6 +18,7 @@ public class LoginScene extends SceneBasic
 	private TextField textU;
 	private PasswordField textP;
 	private Label errorLabel;
+	private GridPane root;
 	
 	public LoginScene()
 	{

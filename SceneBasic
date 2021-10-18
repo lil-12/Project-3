@@ -39,21 +39,26 @@ public abstract class SceneBasic
 	
 	public void logout() 
 	{
-		System.out.println("logging out");
-		try 
+		if(SceneManager.getSocket()!= null)
 		{
-			Socket socket = SceneManager.getSocket();
-			PrintWriter outgoing= new PrintWriter(socket.getOutputStream());
-			outgoing.println("QUIT");
-			outgoing.flush();
-			outgoing.close();
-			SceneManager.setLoginScene();
-			//SceneManager.getSocket().close();
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
+			if(!SceneManager.getSocket().isClosed())
+			{
+				System.out.println("logging out");
+				try 
+				{
+					Socket socket = SceneManager.getSocket();
+					PrintWriter outgoing= new PrintWriter(socket.getOutputStream());
+					outgoing.println("QUIT");
+					outgoing.flush();
+					outgoing.close();
+					//SceneManager.getSocket().close();
+				} catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+			}	
 		}
-		
+		SceneManager.setLoginScene();
 	}
 
 }

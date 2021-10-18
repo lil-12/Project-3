@@ -9,21 +9,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-
-public class ClientScene extends SceneBasic{
+public class ClientScene extends SceneBasic
+{
 			
-		private GridPane root;
+	private GridPane root;//container holding most elements of the scene
 	
-		public ClientScene() {
-		
+	public ClientScene() 
+	{
 		super("Client Menu");
 		
-		Label title = new Label("Client Scene");
+		Label title = new Label("Client Scene");//Large title of scene
 		title.setFont(new Font(40));
 	
-		Button profile = new Button("Show profile");//profile button
-		Button change = new Button("Change Password");//change password button
-		Button logout = new Button("Log out");//logout button
+		Button profile = new Button("Show profile");//brings you to profileScene
+		Button change = new Button("Change Password");//brings you to changePasswordScene
+		Button logout = new Button("Log out");//logout button -> goes to login scene, does not cut connection
 		
 		profile.setOnAction(e->  SceneManager.setProfileScene());
 		change.setOnAction(e-> SceneManager.setChangePasswordScene());
@@ -37,7 +37,7 @@ public class ClientScene extends SceneBasic{
 		root.add(profile, 0, 0);
 		root.add(change, 1, 0);
 		root.add(logout, 2, 0);
-		root.add(quit, 3, 0);
+		root.add(quit, 3, 0);//sets the SceneBasic quit button (whoch returns to login scene and cuts the connection) in place
 		
 		VBox vbox = new VBox(30, title, root);
 		vbox.setAlignment(Pos.CENTER);
@@ -45,6 +45,5 @@ public class ClientScene extends SceneBasic{
 		BorderPane bp = new BorderPane(vbox);
 		BorderPane.setAlignment(bp, Pos.CENTER);
 		super.scene = new Scene(bp, 400, 300);
-		//layout.getChildren().addAll(profile, change, logout);
 	}
 }

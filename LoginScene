@@ -25,6 +25,7 @@ public class LoginScene extends SceneBasic
 		Label labelU = new Label("Username: ");//label for username texfield
 		Label labelP = new Label("Password: ");//label for password textfield
 		errorLabel = new Label("");//will be set if there is an error loging in
+		errorLabel.setTextFill(Color.color(1, 0, 0));
 		textU = new TextField();//username textfield
 		textP = new PasswordField();//password textfield
 		display.add(labelU,0,0);

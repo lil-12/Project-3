@@ -24,8 +24,8 @@ import javafx.scene.layout.GridPane;
 public class AccountListScene extends SceneBasic
 {
 
-	GridPane root = new GridPane();//container holding ...
-	Text list = new Text("");
+	GridPane root = new GridPane();//container holding the main elements of the scene
+	Text list = new Text("");//where the list of accounts will be printed
 	
 	public AccountListScene ()
 	{
@@ -34,8 +34,8 @@ public class AccountListScene extends SceneBasic
 		Label title = new Label("Account List Scene");
 		title.setFont(new Font(40));
 
-		Button adminMenu = new Button("AdminMenu");
-		Button logOut = new Button("Log out");
+		Button adminMenu = new Button("AdminMenu");//brings the user back to the adminScene
+		Button logOut = new Button("Log out");//brings the user back to the loginScene
 		
 		adminMenu.setOnAction(e-> SceneManager.setAdminScene());
 		logOut.setOnAction(e-> SceneManager.setLoginScene());
@@ -54,26 +54,23 @@ public class AccountListScene extends SceneBasic
 
 		BorderPane bp = new BorderPane(vbox);
 		BorderPane.setAlignment(bp, Pos.CENTER);
-		super.scene = new Scene(bp, 400, 300);
-		
+		super.scene = new Scene(bp, 400, 300);	
 	}
 	
-	public void getAccountList() {
-		
-		try {
+	//sends signal to server requesting the accountList and sets the returned message to list
+	public void getAccountList() 
+	{
+		try 
+		{
 			
-			Socket socket = SceneManager.getSocket();
+			Socket socket = SceneManager.getSocket();//gets socket from the SceneManager to use in method
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter out = new PrintWriter(SceneManager.getSocket().getOutputStream());
-			
 			out.println("ACCOUNTLIST");
-			
 			out.flush();
-			
 			String message = in.readLine();
 			message += "\n" + in.readLine();
-			
-			list.setText(message);
+			list.setText(message);//sets the message returned from the server to list
 			root.add(list, 0, 0);
 						
 		} catch (Exception e) {

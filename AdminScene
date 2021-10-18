@@ -17,16 +17,15 @@ import javafx.scene.control.Button;
 
 public class AdminScene extends SceneBasic
 {
-	
-	private GridPane root;
+	private GridPane root;//container holding most elements of the scene
 	
 	public AdminScene()
 	{
-		super("Administrator Menu");//sets large label to "Administrator Menu"
+		super("Administrator Menu");
 		
-		Label title = new Label("Admin Scene");
+		Label title = new Label("Admin Scene");//sets large label to "AdminScene"
 		title.setFont(new Font(40));
-		
+
 		Button listAcc = new Button ("List Accounts");//button to go to AccountListScene
 		Button changePass = new Button ("Change Password");//button to go to ChangePasswordScene
 		Button logOut = new Button("Log Out");// button to go to LogOutScene
@@ -51,7 +50,5 @@ public class AdminScene extends SceneBasic
 		BorderPane bp = new BorderPane(vbox);
 		BorderPane.setAlignment(bp, Pos.CENTER);
 		super.scene = new Scene(bp, 400, 300);
-		
 	}
-	
 }

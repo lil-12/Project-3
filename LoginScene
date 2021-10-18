@@ -1,3 +1,4 @@
+
 // Author: Lillian Davis
 
 import java.io.BufferedReader;
@@ -5,13 +6,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class LoginScene extends SceneBasic
 {
@@ -38,25 +43,26 @@ public class LoginScene extends SceneBasic
 		{
 		SceneManager.setSettingsScene();
 		errorLabel.setText("");
+		errorLabel.setTextFill(Color.color(1,0,0));
 		});//clicking the settings button opens the settings scene
 		
-		Label labelU = new Label("Username: ");//label for username texfield
-		Label labelP = new Label("Password: ");//label for password textfield
+		Label labelU = new Label("	Username:		");//label for username texfield
+		Label labelP = new Label("	Password: 		");//label for password textfield
 		errorLabel = new Label("");//will be set if there is an error loging in
 		textU = new TextField();//username textfield
 		textP = new PasswordField();//password textfield
 		
 		root = new GridPane();//container holding the labels and textfeilds for username and password
-		root.add(labelU,0,0);
-		root.add(labelP,0,1);
-		root.add(textU,1,0);
-		root.add(textP,1,1);
-		root.add(errorLabel, 0, 2);
-		root.add(login, 0, 3);
-		root.add(settings, 1, 3);
-		root.add(quit, 2, 3);
+		root.add(labelU,1,0);
+		root.add(labelP,1,1);
+		root.add(textU,2,0);
+		root.add(textP,2,1);
+		root.add(login, 1, 3);
+		root.add(settings, 2, 3);
+		root.add(quit, 3, 3);
+		root.add(new Label("\t"), 0, 0);
 		
-		VBox vbox = new VBox(30, title, root);
+		VBox vbox = new VBox(30, title, root,errorLabel);
 		vbox.setAlignment(Pos.CENTER);
 		
 		BorderPane bp = new BorderPane(vbox);

@@ -32,29 +32,29 @@ public class StoreServer
 			while(true)
 			{
 				String fromUser =incoming.readLine();
+				System.out.println("string from user = "+fromUser);
 				if(fromUser.equals("LOGIN"))
 				{
 					login(accounts,incoming,outgoing);
 				}
-				else if(fromUser.equals("ACCOUNTLIST"))
+				if(fromUser.equals("ACCOUNTLIST"))
 				{
 					sendAccountList(outgoing);
 				}
-				else if(fromUser.equals("PROFILE"))
+				if(fromUser.equals("PROFILE"))
 				{
 					sendProfile(outgoing);
 				}
-				else if(fromUser.equals("QUIT"))
+				if(fromUser.equals("QUIT"))
 				{
 					serve.close();
 					System.out.println("server closed");
-					ServerSocket newServer = new ServerSocket(LISTENING_PORT);
-					connection =newServer.accept();
+					 serve = new ServerSocket(LISTENING_PORT);
+					connection =serve.accept();
 					outgoing = new PrintWriter(connection.getOutputStream());
 					incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				}
-				}
-				else if(fromUser.equals("CHANGE"))
+				if(fromUser.equals("CHANGE"))
 				{
 					changePassword(userAccount,incoming,outgoing);
 				}
@@ -151,6 +151,18 @@ public class StoreServer
 		}
 	}
 
+	public static void sendAccountListLilysVersion(PrintWriter outgoing2) 
+	{
+		
+		for(int i=0;i<accounts.size();i++)
+		{
+			 outgoing2.println(accounts.get(i).getUsername());
+			 outgoing2.println(accounts.get(i).getClass());
+		}
+		outgoing2.println("SENTALLACCOUNTS");
+		outgoing2.flush();
+	}
+
 	public static void sendProfile(PrintWriter outgoing2) 
 	{
 		ClientAccount thisClient = (ClientAccount)(userAccount);
@@ -158,28 +170,28 @@ public class StoreServer
 		outgoing2.flush();
 	}
 
-	public static void changePassword(Account userAccount, BufferedReader incoming2, PrintWriter outgoing2) {
-		// TODO Auto-generated method stub
-		
+	public static void changePassword(Account userAccount2, BufferedReader incoming2, PrintWriter outgoing2) 
+	{
 		try {
 			String toSend = "error: ";//the message to be sent at end of interaction. by default it send error, unless an account is selected
 			String password = incoming2.readLine();//password sent by client
 			String newPassword = incoming2.readLine(); // new password sent by client
-			
-			if (userAccount.verifyPassword(password) == true) {
-				userAccount.setPassword(newPassword);
-				if (userAccount instanceof AdminAccount)
-					toSend = "ADMIN";
-				else toSend = "CLIENT";
-			} else toSend = "Error: wrong password.";
-			
-			outgoing2.println(toSend);
-			outgoing2.flush();	
+			for (int i = 0; i < accounts.size(); i++) {
+				if (password.equals(accounts.get(i).getPassword())) {
+					accounts.get(i).setPassword(newPassword);
+					if(accounts.get(i) instanceof AdminAccount)
+						toSend="ADMIN";//sends this signal if the account is admin
+					else toSend = "CLIENT";//sends this signal if the account is client
+				} 
+				else toSend = "error: current password not correct";
+			}
+			outgoing.println(toSend);
+			outgoing.flush();	
 			System.out.println("sent");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 }
+

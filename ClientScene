@@ -1,18 +1,50 @@
 // Author: Lillian Davis
 
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 
 public class ClientScene extends SceneBasic{
 			
+		private GridPane root;
+	
 		public ClientScene() {
 		
-		super("Client Menu");	
+		super("Client Menu");
+		
+		Label title = new Label("Client Scene");
+		title.setFont(new Font(40));
 	
 		Button profile = new Button("Show profile");//profile button
-		profile.setOnAction(e->  SceneManager.setProfileScene());
 		Button change = new Button("Change Password");//change password button
+		Button logout = new Button("Log out");//logout button
+		
+		profile.setOnAction(e->  SceneManager.setProfileScene());
 		change.setOnAction(e-> SceneManager.setChangePasswordScene());
-		layout.getChildren().addAll(profile, change);
+		logout.setOnAction(e-> SceneManager.setLoginScene());
+		
+		root = new GridPane();
+		root.setAlignment(Pos.CENTER);
+		root.setVgap(10);
+		root.setHgap(5);
+
+		root.add(profile, 0, 0);
+		root.add(change, 1, 0);
+		root.add(logout, 2, 0);
+		root.add(quit, 3, 0);
+		
+		VBox vbox = new VBox(30, title, root);
+		vbox.setAlignment(Pos.CENTER);
+
+		BorderPane bp = new BorderPane(vbox);
+		BorderPane.setAlignment(bp, Pos.CENTER);
+		super.scene = new Scene(bp, 400, 300);
+		//layout.getChildren().addAll(profile, change, logout);
 	}
 }

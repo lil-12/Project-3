@@ -1,5 +1,4 @@
 // Author: Lillian Davis
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class Test_SendProfile_JUnit 
 {
-
+	//connects to server, logs into an account, and checks that a profile sent from server matches the expected profile
 	@Test
 	void test() 
 	{
@@ -24,11 +23,11 @@ class Test_SendProfile_JUnit
 			System.out.println("connecting to port: " + 52431);
 			outgoing = new PrintWriter(connection.getOutputStream());
 			incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			outgoing.println("client");
-			outgoing.println("1234");
+			outgoing.println("client");//logging in (username)
+			outgoing.println("1234");//logging in (password)
 			outgoing.flush();
 			System.out.println("login result"+incoming.readLine());
-			String profile = incoming.readLine();
+			String profile = incoming.readLine();//profile sent from server
 			System.out.println("prof"+profile);
 			assert(profile.equals("Best client ever"));
 		}
@@ -37,5 +36,4 @@ class Test_SendProfile_JUnit
 			e.printStackTrace();
 		}
 	}
-
 }

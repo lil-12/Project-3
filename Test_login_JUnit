@@ -21,6 +21,7 @@ class Test_login_JUnit
 	static PrintWriter outgoing;
 	static BufferedReader incoming;
 	
+	//connects to the server a new time before each test
 	@BeforeEach
 	void doThis()
 	{
@@ -75,7 +76,6 @@ class Test_login_JUnit
 			e.printStackTrace();
 		}
 		assert(str.equals("CLIENT"));
-		
 	}
 	
 	//tests that the server will correctly identify an incorrect username and send the appropriate signal to the client
@@ -116,8 +116,6 @@ class Test_login_JUnit
 			e.printStackTrace();
 		}
 		System.out.println(str);
-		assert(str.equals("error: Incorrect password"));
-		
+		assert(str.equals("error: Incorrect password"));	
 	}
-
 }

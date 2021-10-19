@@ -9,10 +9,8 @@ import java.util.ArrayList;
 
 public class Test_changePassword_Helper 
 {
-
 	public static void main (String args[]) 
 	{
-		
 		try 
 		{
 			ArrayList<Account> accounts = new ArrayList<Account>();
@@ -32,8 +30,6 @@ public class Test_changePassword_Helper
 				serve.close();
 				connection.close();
 			}	
-			
-			
 		} 
 		catch (Exception e) 
 		{

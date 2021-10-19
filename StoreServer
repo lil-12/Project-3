@@ -12,27 +12,26 @@ import java.util.Scanner;
 
 public class StoreServer 
 {
-	static ArrayList<Account> accounts = new ArrayList<Account>();//list fo accounts used by application
-	static Account userAccount;
-	static BufferedReader incoming;
-	static PrintWriter outgoing;
-	static int LISTENING_PORT =52431;
+	static ArrayList<Account> accounts = new ArrayList<Account>();//list of accounts used by application
+	static Account userAccount;//account currently being accessed
+	static BufferedReader incoming;//BufferedReader used to read data from client
+	static PrintWriter outgoing;//PrintWriter that sends data to client
+	static int LISTENING_PORT =52431;//port used by server that clients should connect to
 
 	public static void main(String[] args) 
 	{
-		StoreServer.readAccounts(accounts);
+		StoreServer.readAccounts(accounts);//reads data file of accounts
 		try 
 		{
 			ServerSocket serve = new ServerSocket(LISTENING_PORT);
-			System.out.println("Listening on port: "+LISTENING_PORT);//for development
+			System.out.println("Listening on port: "+LISTENING_PORT);
 			Socket connection = serve.accept();
-			System.out.println("accepted connection");//for development
+			System.out.println("accepted connection");
 			outgoing = new PrintWriter(connection.getOutputStream());
 			incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			while(true)
+			while(true)//continue to wait for a connection indefinitely
 			{
-				String fromUser =incoming.readLine();
-				System.out.println("string from user = "+fromUser);
+				String fromUser = incoming.readLine();//signal from user
 				if(fromUser.equals("LOGIN"))
 				{
 					login(accounts,incoming,outgoing);
@@ -45,7 +44,7 @@ public class StoreServer
 				{
 					sendProfile(outgoing);
 				}
-				if(fromUser.equals("QUIT"))
+				if(fromUser.equals("QUIT"))//closes connection and opens a new one at the same port number
 				{
 					serve.close();
 					System.out.println("server closed");
@@ -84,7 +83,7 @@ public class StoreServer
 			String str = scan.nextLine();
 			String[] array = str.split("%");
 			String type = array[0];//type of account
-			String name = array[1];//username
+			String name = array[1];
 			String password = array[2];
 			String profile = array[3];
 	
@@ -99,7 +98,8 @@ public class StoreServer
 		
 	}
 
-	
+	//checks username and password sent by client, sets userAccount to whoever is logged in 
+	//and tells client if it is a client or or admin account, or sends over the error message
 	public static void login(ArrayList<Account> accounts, BufferedReader incoming, PrintWriter outgoing)
 	{
 		try
@@ -125,13 +125,14 @@ public class StoreServer
 				toSend=toSend+"Incorrect username";//sends if the username does not exist
 			outgoing.println(toSend);
 			outgoing.flush();	
-			System.out.println("sent");//for development
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
+	
+	//sends the accounts array to the client in the form of strings
 	public static void sendAccountList(PrintWriter outgoing2) 
 	{
 		try 
@@ -141,7 +142,7 @@ public class StoreServer
 			{
 				toSend += accounts.get(i).toString() + "\n";
 			}
-			outgoing2.println(toSend);
+			outgoing2.println(toSend);//list of all accounts in one string
 			outgoing2.flush();
 			System.out.println("sent");
 		}
@@ -151,18 +152,7 @@ public class StoreServer
 		}
 	}
 
-	public static void sendAccountListLilysVersion(PrintWriter outgoing2) 
-	{
-		
-		for(int i=0;i<accounts.size();i++)
-		{
-			 outgoing2.println(accounts.get(i).getUsername());
-			 outgoing2.println(accounts.get(i).getClass());
-		}
-		outgoing2.println("SENTALLACCOUNTS");
-		outgoing2.flush();
-	}
-
+	//sends the profile of the userAccount to the client
 	public static void sendProfile(PrintWriter outgoing2) 
 	{
 		ClientAccount thisClient = (ClientAccount)(userAccount);
@@ -170,28 +160,33 @@ public class StoreServer
 		outgoing2.flush();
 	}
 
+	//reads in a current password and new password sent by client. either successfully changes password for the userAccount or not. 
+	//sends a message to client communicating if it was successful or if there was an error
 	public static void changePassword(Account userAccount2, BufferedReader incoming2, PrintWriter outgoing2) 
 	{
-		try {
+		try 
+		{
 			String toSend = "error: ";//the message to be sent at end of interaction. by default it send error, unless an account is selected
 			String password = incoming2.readLine();//password sent by client
-			String newPassword = incoming2.readLine(); // new password sent by client
-			for (int i = 0; i < accounts.size(); i++) {
-				if (password.equals(accounts.get(i).getPassword())) {
-					accounts.get(i).setPassword(newPassword);
+			String newPassword = incoming2.readLine(); //new password sent by client
+			for (int i = 0; i < accounts.size(); i++) 
+			{
+				if (password.equals(accounts.get(i).getPassword())) 
+				{
+					accounts.get(i).setPassword(newPassword);//sets the new password
 					if(accounts.get(i) instanceof AdminAccount)
 						toSend="ADMIN";//sends this signal if the account is admin
 					else toSend = "CLIENT";//sends this signal if the account is client
 				} 
-				else toSend = "error: current password not correct";
+				else toSend = "error: current password not correct";//sends error message if it doesnt work
 			}
 			outgoing.println(toSend);
 			outgoing.flush();	
 			System.out.println("sent");
-			
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 	}
 }
-

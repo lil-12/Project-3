@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SendProfileHelper 
+public class Test_sendProfile_Helper
 {
 	//has StoreServer read in accounts from datafile, calls login, for test to login, and sends the profile of the logged in user to the client(test)
 	public static void main(String [] args)

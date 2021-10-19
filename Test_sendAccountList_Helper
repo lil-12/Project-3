@@ -4,7 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class SendAccountList_Helper 
+public class test_SendAccountList_Helper 
 {
 	//has the ServerStore read in accounts from the data file, and sends them to client.
 	public static void main(String [] args)

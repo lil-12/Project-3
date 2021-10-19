@@ -11,56 +11,40 @@ import javafx.stage.Stage;
 
 public class Store extends Application
 {
-		private static SceneManager sceneManager;
-		private static Socket connection;
-		private static int LISTENING_PORT=52431;
-		
-		//launches GUI
-		public void start(Stage stage)
-		{
-			System.out.println("started");//for development
-			sceneManager = new SceneManager();
-		    stage.setTitle("Store Application");
-		    sceneManager.setStage(stage);
-		    sceneManager.setSocket(connection);
-		    SceneManager.setLoginScene();
-		    stage.show();
-		    System.out.println("finished starting");//for development
-		   
-		}
-		
-		//connects to server
-		public static void main(String []args)
-		{
-			try 
-			{
-				//connection = new Socket("localhost",LISTENING_PORT);
-				launch();
-				System.out.println("launched");//for development
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			
-		}
-		
-		//sends quit signal to server as GUi is stopping
-		public void stop()
-		{
-			try 
-			{
-				connection = SceneManager.getSocket();
-				PrintWriter out = new PrintWriter(connection.getOutputStream());
-				out.println("QUIT");
-				out.flush();
-				out.close();
-			} catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-			
-		}
-		
+	private static SceneManager sceneManager;
+	private static Socket connection;
 
+	//launches GUI
+	public void start(Stage stage)
+	{
+		sceneManager = new SceneManager();
+	    stage.setTitle("Store Application");
+	    sceneManager.setStage(stage);
+	    sceneManager.setSocket(connection);
+	    SceneManager.setLoginScene();
+	    stage.show();
+	}
+	
+	//connects to server
+	public static void main(String []args)
+	{
+		launch();
+	}
+	
+	//sends quit signal to server as GUi is stopping
+	public void stop()
+	{
+		try 
+		{
+			connection = SceneManager.getSocket();
+			PrintWriter out = new PrintWriter(connection.getOutputStream());
+			out.println("QUIT");//sends quit signal to server
+			out.flush();
+			out.close();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 }

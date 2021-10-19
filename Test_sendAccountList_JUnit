@@ -1,7 +1,5 @@
 // Author: Lillian Davis
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -11,8 +9,9 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-class Test_sendAccountList_JUnit {
+class Test_SendAccountList_JUnit {
 
+	//checks that the list of accounts received from server matches the expected string
 	@Test
 	void test() 
 	{

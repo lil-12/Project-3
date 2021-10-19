@@ -17,9 +17,12 @@ class Test_changePassword_JUnit {
 	static PrintWriter outgoing;
 	static BufferedReader incoming;
 
+	//connect to the server a new time for each test
 	@BeforeEach
-	void before() {
-		try {
+	void before()
+	{
+		try 
+		{
 			connection = new Socket("localhost",52431);
 			System.out.println("Listening on port: "+52431);
 			outgoing = new PrintWriter(connection.getOutputStream());
@@ -31,36 +34,41 @@ class Test_changePassword_JUnit {
 		}
 	}	
 	
+	//tests that change password works by making sure that the correct type of account is returned as a message when the appropriate strings are sent over
 	@Test
-	void testAdmin() {
+	void testAdmin() 
+	{
 		outgoing.println("password");
 		outgoing.println("new");
 		outgoing.flush();
 		String str="";
-		try {
+		try 
+		{
 			str = incoming.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 		assert(str.equals("ADMIN"));
 	
 	}
 	
+	//makes sure that an error message is returned when the wrong current password is entered
 	@Test
 	void testAdminWrong() {
 		outgoing.println("aaaaaa");
 		outgoing.println("new");
 		outgoing.flush();
 		String str="";
-		try {
+		try 
+		{
 			str = incoming.readLine();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assert(str.equals("Error: wrong password."));
-	
 	}
-
 }

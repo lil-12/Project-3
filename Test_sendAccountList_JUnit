@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-class Test_SendAccountList_JUnit {
+class Test_sendAccountList_JUnit {
 
 	//checks that the list of accounts received from server matches the expected string
 	@Test
